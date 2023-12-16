@@ -1,11 +1,36 @@
-<!DOCTYPE html>
-<head>
-    <meta charset="UTF-8">
-    <title>My title</title>
-</head>
+{% extends "quotes/base.html" %}
 
-<body>
+{% block content %}
 
-</body>
+<div class="row">
+    <div class="col-md-8">
 
-</html>
+        <div class="quote" itemscope="" itemtype="http://schema.org/CreativeWork">
+            <span class="text" itemprop="text">“A woman is like a tea bag; you never know how strong it is until it's in hot water.”</span>
+            <span>by <small class="author" itemprop="author">Eleanor Roosevelt</small>
+            <a href="/author/Eleanor-Roosevelt">(about)</a>
+            </span>
+            <div class="tags">
+                Tags:
+                <meta class="keywords" itemprop="keywords" content="misattributed-eleanor-roosevelt"> 
+                
+                <a class="tag" href="/tag/misattributed-eleanor-roosevelt/page/1/">misattributed-eleanor-roosevelt</a>
+                
+            </div>
+        </div>
+
+    <nav>
+        <ul class="pager">
+
+            <li class="next">
+                <a href="/page/2/">Next <span aria-hidden="true">→</span></a>
+            </li>
+            
+        </ul>
+    </nav>
+    </div>
+
+    </div>
+</div>
+
+{% endblock %}
