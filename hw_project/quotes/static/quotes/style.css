@@ -85,6 +85,16 @@ p {
     border-radius: 15px;
 }
 
+.pager li>a:hover, .pager li>a:focus {
+    text-decoration: none;
+    background-color: #4582ec;
+}
+
+.pager a:hover {
+    border-color: transparent;
+    color: #fff;
+}
+
 a {
     color: #4582ec;
     text-decoration: none;
