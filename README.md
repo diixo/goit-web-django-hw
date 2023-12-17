@@ -1,4 +1,6 @@
 ## goit-web-django-hw
+
+## Homework: quotes. Implementation: start stage. 
 ### Description:
   - db for quotes: allainews-news.json
   - paginations
