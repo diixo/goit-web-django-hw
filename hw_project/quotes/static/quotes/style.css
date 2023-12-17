@@ -73,6 +73,10 @@ p {
     background-color: #7CA3E6;
 }
 
+.pager li {
+    display: inline;
+}
+
 .pager .next>a, .pager .next>span {
     float: right;
 }
@@ -84,6 +88,15 @@ p {
     border: 1px solid #dddddd;
     border-radius: 15px;
 }
+
+.disabled {
+    color: #333333;
+}
+
+.pager a {
+    color: #333333;
+}
+
 
 .pager li>a:hover, .pager li>a:focus {
     text-decoration: none;
@@ -100,9 +113,7 @@ a {
     text-decoration: none;
 }
 
-.pager li {
-    display: inline;
-}
+
 
 * {
     -webkit-box-sizing: border-box;
