@@ -5,19 +5,23 @@
 <div class="row">
     <div class="col-md-8">
 
+        {% for quote in quotes %}
+
         <div class="quote" itemscope="" itemtype="http://schema.org/CreativeWork">
-            <span class="text" itemprop="text">“A woman is like a tea bag; you never know how strong it is until it's in hot water.”</span>
-            <span>by <small class="author" itemprop="author">Eleanor Roosevelt</small>
-            <a href="/author/Eleanor-Roosevelt">(about)</a>
+            <span class="text" itemprop="text">
+                {{quote.quote}}
+            </span>
+            <span>by <small class="author" itemprop="author">{{quote.author}}</small>
+            <a href="/author/{{quote.author}}">(about)</a>
             </span>
             <div class="tags">
                 Tags:
-                <meta class="keywords" itemprop="keywords" content="misattributed-eleanor-roosevelt"> 
-                
-                <a class="tag" href="/tag/misattributed-eleanor-roosevelt/page/1/">misattributed-eleanor-roosevelt</a>
-                
+                {% for tag in quote.tags %}
+                <a class="tag" href="/tag/{{tag}}">{{tag}}</a>
+                {% endfor %}
             </div>
         </div>
+        {% endfor %}
 
     <nav>
         <ul class="pager">
