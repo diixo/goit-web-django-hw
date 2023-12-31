@@ -24,7 +24,7 @@ py .\manage.py startapp users
 
 Run server:
 ```bash
-py .\manage.py runserver
+py .\manage.py runserver --noreload 
 ```
 
 hard work pays off. It is not only job, it is passion of success
