@@ -7,7 +7,7 @@ from .utils.add_news_as_quotes import get_json_db
 
 def main(request, page=1):
     db = get_json_db()
-    quotes = db.quotes
+    quotes = db.data
     per_page = 10
     paginator = Paginator(list(quotes), per_page)
     quotes_on_page = paginator.page(page)

@@ -19,6 +19,8 @@ class QuotesProvider:
                 data['author'] = author
                 self.quotes.append(data)
 
+        self.data = self.quotes[-100:][::-1]
+
 db_client = QuotesProvider()
 
 
