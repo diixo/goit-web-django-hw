@@ -1,9 +1,11 @@
 from django.shortcuts import render
 from django.core.paginator import Paginator
+from django.core.signals import request_finished 
+# for request_finished.connect(stop_thread)
 
 from .utils.add_news_as_quotes import get_json_db
-
-import threading, time 
+import threading
+import time 
 
 class TimingThread(object):
 
@@ -13,7 +15,7 @@ class TimingThread(object):
         self._stop_event = threading.Event()
         self.thread = threading.Thread(target=self.run, args=())
         self.thread.daemon = True
-        self.thread.start()
+        #self.thread.start()
 
     def run(self):
         while not self._stop_event.is_set():
@@ -25,13 +27,19 @@ class TimingThread(object):
         self._stop_event.set()
         self.thread.join()
 
+    def start(self):
+        self._stop_event.clear()
+        self.thread.start()
+
     def __enter__(self):
         return self
 
     def __exit__(self, exc_type, exc_value, traceback):
+        print("TimingThread::__exit__")
         self.stop()
 
-# example = TimingThread()
+#example = TimingThread()
+
 def stop_thread(sender, **kwargs):
     pass
     #example.stop()
@@ -42,4 +50,5 @@ def main(request, page=1):
     per_page = 10
     paginator = Paginator(list(quotes), per_page)
     quotes_on_page = paginator.page(page)
-    return render(request, "quotes/index.html", context={'quotes': quotes_on_page})
+    return render(request, "quotes/index.html", 
+        context={'quotes': quotes_on_page, "parsing_is_active": False})
