@@ -2,13 +2,26 @@
 
 {% block content %}
 
-<div class="container">
-    <div class="col-md-4">
-        <p>
-            <a href="#" class="btn btn-primary">Parsing</a>
-        </p>
+<form method="post">
+    {% csrf_token %}
+    
+    <!-- ?????? -->
+    {{ form.as_p }}
+
+    <div class="container">
+        <div class="col-md-4">
+            <p>
+                {% if is_activated_parsing %}
+                <button class="btn btn-danger" type="submit" name="action" value="activate_parsing">Stop parsing</button>
+                {% else %}
+                <button class="btn btn-success" type="submit" name="action" value="activate_parsing">Activate parsing</button>
+                {% endif %}
+            </p>
+        </div>
     </div>
-</div>
+</form>
+
+
 
 <div class="row">
     <div class="col-md-8">

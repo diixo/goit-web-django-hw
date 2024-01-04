@@ -1,18 +1,18 @@
 from django.shortcuts import render
 from django.core.paginator import Paginator
-from django.core.signals import request_finished 
-# for request_finished.connect(stop_thread)
 
 from .utils.add_news_as_quotes import get_json_db
 import threading
-import time 
+import time
+
 
 class TimingThread(object):
 
-    def __init__(self, interval=5):
+    def __init__(self, interval=60):
         #super().__init__()
         self.interval = interval
         self._stop_event = threading.Event()
+        self._stop_event.set()
         self.thread = threading.Thread(target=self.run, args=())
         self.thread.daemon = True
         #self.thread.start()
@@ -38,17 +38,38 @@ class TimingThread(object):
         print("TimingThread::__exit__")
         self.stop()
 
-#example = TimingThread()
+parsing_thread = TimingThread()
 
-def stop_thread(sender, **kwargs):
-    pass
-    #example.stop()
 
 def main(request, page=1):
+    global parsing_thread
+
+    is_active_parsing = False
+
+    if request.method == 'POST':
+
+        #form = MyForm(request.POST)
+        #if form.is_valid():
+
+        button_value = request.POST.get('action')
+
+        if button_value == "activate_parsing":
+            if parsing_thread._stop_event.is_set():
+                parsing_thread.start()
+                is_active_parsing = True
+            else:
+                print(">>> stopping")
+                parsing_thread.stop()
+                is_active_parsing = False
+                print("<<< stopped")
+                parsing_thread = TimingThread()
+
+
     db = get_json_db()
     quotes = db.data
     per_page = 10
     paginator = Paginator(list(quotes), per_page)
     quotes_on_page = paginator.page(page)
+
     return render(request, "quotes/index.html", 
-        context={'quotes': quotes_on_page, "parsing_is_active": False})
+        context={'quotes': quotes_on_page, "is_activated_parsing": is_active_parsing})
