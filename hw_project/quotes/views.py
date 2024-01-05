@@ -3,8 +3,6 @@ from django.core.paginator import Paginator
 
 from .utils.add_news_as_quotes import get_json_db
 import threading
-import time
-
 
 class TimingThread(object):
 
@@ -44,16 +42,10 @@ class TimingThread(object):
         self._stop_event.clear()
         self.thread.start()
 
-    def __enter__(self):
-        return self
-
-    def __exit__(self, exc_type, exc_value, traceback):
-        print("TimingThread::__exit__")
-        self.stop()
-
 def some_callback_1(context):
     context['count'] += 1
     print('callback:' + " count: " + str(context['count']))
+
 #############################
 
 parsing_thread = None
