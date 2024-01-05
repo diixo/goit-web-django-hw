@@ -18,9 +18,7 @@ class TimingThread(object):
         self.thread = threading.Thread(target=self.run, args=())
         self.thread.daemon = True
 
-
     def run(self):
-
         while not self._stop_event.is_set():
             is_set = self._stop_event.wait(timeout=self.interval)
             #print(f'TimeOut {self.interval} секунды истек')
@@ -31,7 +29,6 @@ class TimingThread(object):
 
             if is_set:
                 print('Код обработки по событию в WAIT_TIMEOUT()')
-                
             else:
                 self._callback(self._context)
 
@@ -57,7 +54,8 @@ class TimingThread(object):
 def some_callback_1(context):
     context['count'] += 1
     print('callback:' + " count: " + str(context['count']))
-###################################
+#############################
+
 parsing_thread = None
 
 
