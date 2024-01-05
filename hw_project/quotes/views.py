@@ -8,25 +8,36 @@ import time
 
 class TimingThread(object):
 
-    def __init__(self, interval=3):
+    def __init__(self, interval, context, callback):
         #super().__init__()
         self.interval = interval
+        self._context = context
+        self._callback = callback
         self._stop_event = threading.Event()
         self._stop_event.set()
         self.thread = threading.Thread(target=self.run, args=())
         self.thread.daemon = True
-        #self.thread.start()
+
 
     def run(self):
 
         while not self._stop_event.is_set():
             is_set = self._stop_event.wait(timeout=self.interval)
-            print(f'TimeOut {self.interval} секунды истек')
+            #print(f'TimeOut {self.interval} секунды истек')
+            
+            if self._stop_event.is_set():
+                print("<< is_set: exit from Thread by event")
+                break
+
             if is_set:
                 print('Код обработки по событию в WAIT_TIMEOUT()')
+                
             else:
-                print('Пока ждем события, код обработки чего-то другого')
-                time.sleep(self.interval)
+                self._callback(self._context)
+
+        if self._stop_event.is_set():
+            print("<< exit from Thread by event")
+
 
     def stop(self):
         self._stop_event.set()
@@ -43,7 +54,11 @@ class TimingThread(object):
         print("TimingThread::__exit__")
         self.stop()
 
-parsing_thread = TimingThread()
+def some_callback_1(context):
+    context['count'] += 1
+    print('callback:' + " count: " + str(context['count']))
+###################################
+parsing_thread = None
 
 
 def main(request, page=1):
@@ -59,16 +74,16 @@ def main(request, page=1):
         button_value = request.POST.get('action')
 
         if button_value == "activate_parsing":
-            if parsing_thread._stop_event.is_set():
+            if parsing_thread == None:
+                parsing_thread = TimingThread(interval=30, context={'count': 0}, callback=some_callback_1)
                 parsing_thread.start()
                 print(">>> started")
                 is_active_parsing = True
             else:
                 print(">>> stopping")
                 parsing_thread.stop()
-                is_active_parsing = False
+                parsing_thread = None
                 print("<<< stopped")
-                parsing_thread = TimingThread()
 
 
     db = get_json_db()
