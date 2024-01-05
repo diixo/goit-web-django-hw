@@ -19,14 +19,14 @@ class TimingThread(object):
     def run(self):
         while not self._stop_event.is_set():
             is_set = self._stop_event.wait(timeout=self.interval)
-            #print(f'TimeOut {self.interval} секунды истек')
+            #print(f'TimingThread::TimeOut {self.interval} has ended')
             
             if self._stop_event.is_set():
                 print("<< is_set: exit from Thread by event")
                 break
 
             if is_set:
-                print('Код обработки по событию в WAIT_TIMEOUT()')
+                print('TimingThread::Event processing code by WAIT_TIMEOUT()')
             else:
                 self._callback(self._context)
 
