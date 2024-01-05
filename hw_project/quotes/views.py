@@ -62,8 +62,6 @@ parsing_thread = None
 def main(request, page=1):
     global parsing_thread
 
-    is_active_parsing = False
-
     if request.method == 'POST':
 
         #form = MyForm(request.POST)
@@ -76,7 +74,6 @@ def main(request, page=1):
                 parsing_thread = TimingThread(interval=3, context={'count': 0}, callback=some_callback_1)
                 parsing_thread.start()
                 print(">>> started")
-                is_active_parsing = True
             else:
                 print(">>> stopping")
                 parsing_thread.stop()
@@ -89,6 +86,8 @@ def main(request, page=1):
     per_page = 10
     paginator = Paginator(list(quotes), per_page)
     quotes_on_page = paginator.page(page)
+
+    is_active_parsing = parsing_thread != None
 
     return render(request, "quotes/index.html", 
         context={'quotes': quotes_on_page, "is_activated_parsing": is_active_parsing})
