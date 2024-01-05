@@ -75,7 +75,7 @@ def main(request, page=1):
 
         if button_value == "activate_parsing":
             if parsing_thread == None:
-                parsing_thread = TimingThread(interval=30, context={'count': 0}, callback=some_callback_1)
+                parsing_thread = TimingThread(interval=3, context={'count': 0}, callback=some_callback_1)
                 parsing_thread.start()
                 print(">>> started")
                 is_active_parsing = True
