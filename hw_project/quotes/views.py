@@ -8,7 +8,7 @@ import time
 
 class TimingThread(object):
 
-    def __init__(self, interval=60):
+    def __init__(self, interval=3):
         #super().__init__()
         self.interval = interval
         self._stop_event = threading.Event()
@@ -18,10 +18,15 @@ class TimingThread(object):
         #self.thread.start()
 
     def run(self):
+
         while not self._stop_event.is_set():
-            # Do something
-            print('Doing something imporant in the background, interval:', self.interval)
-            time.sleep(self.interval)
+            is_set = self._stop_event.wait(timeout=self.interval)
+            print(f'TimeOut {self.interval} секунды истек')
+            if is_set:
+                print('Код обработки по событию в WAIT_TIMEOUT()')
+            else:
+                print('Пока ждем события, код обработки чего-то другого')
+                time.sleep(self.interval)
 
     def stop(self):
         self._stop_event.set()
@@ -56,6 +61,7 @@ def main(request, page=1):
         if button_value == "activate_parsing":
             if parsing_thread._stop_event.is_set():
                 parsing_thread.start()
+                print(">>> started")
                 is_active_parsing = True
             else:
                 print(">>> stopping")
