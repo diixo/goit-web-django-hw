@@ -6,7 +6,7 @@ import threading
 
 class TimingThread(object):
 
-    def __init__(self, interval, context, callback):
+    def __init__(self, interval, callback, context = {}):
         #super().__init__()
         self.interval = interval
         self._context = context
@@ -63,7 +63,7 @@ def main(request, page=1):
 
         if button_value == "activate_parsing":
             if parsing_thread == None:
-                parsing_thread = TimingThread(interval=3, context={'count': 0}, callback=some_callback_1)
+                parsing_thread = TimingThread(interval=3, callback=some_callback_1, context={'count': 0})
                 parsing_thread.start()
                 print(">>> started")
             else:
