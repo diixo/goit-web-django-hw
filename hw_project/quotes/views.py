@@ -8,7 +8,7 @@ class TimingThread(object):
 
     def __init__(self, interval, callback, context = {}):
         #super().__init__()
-        self.interval = interval
+        self._interval = interval
         self._callback = callback
         self._context = context
         self._stop_event = threading.Event()
@@ -18,8 +18,8 @@ class TimingThread(object):
 
     def run(self):
         while not self._stop_event.is_set():
-            is_set = self._stop_event.wait(timeout=self.interval)
-            #print(f'TimingThread::TimeOut {self.interval} has ended')
+            is_set = self._stop_event.wait(timeout=self._interval)
+            #print(f'TimingThread::TimeOut {self._interval} has ended')
             
             if self._stop_event.is_set():
                 print("<< is_set: exit from Thread by event")
