@@ -9,8 +9,8 @@ class TimingThread(object):
     def __init__(self, interval, callback, context = {}):
         #super().__init__()
         self.interval = interval
-        self._context = context
         self._callback = callback
+        self._context = context
         self._stop_event = threading.Event()
         self._stop_event.set()
         self.thread = threading.Thread(target=self.run, args=())
