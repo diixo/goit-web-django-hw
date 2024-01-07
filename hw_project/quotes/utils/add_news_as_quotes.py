@@ -27,9 +27,9 @@ class QuotesProvider:
                 data['tags'] = ["tag-0", "tag-1"]
                 data['author'] = author
                 self.quotes.append(data)
-
+            ##########################################################################
             self.data = self.quotes[-100:][::-1]
-
+            ##########################################################################
             for item in self.data:
                 ngrams = str_to_ngrams(item['quote'], stopwords=stopwords)
                 ngrams = [" ".join([w for w in grm]) for grm in ngrams]
