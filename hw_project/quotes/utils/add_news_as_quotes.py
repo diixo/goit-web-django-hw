@@ -38,17 +38,34 @@ class QuotesProvider:
                 author = "author-" + str(i)
                 data = dict()
                 data['quote'] = heading
-                data['tags'] = ["tag-0", "tag-1"]
                 data['author'] = author
                 self.quotes.append(data)
             ##########################################################################
             self.data = self.quotes[-100:][::-1]
             ##########################################################################
             for item in self.data:
-                ngrams = qq.str_to_ngrams(item['quote'], stopwords=stopwords)
-                ngrams = [" ".join([w for w in grm]) for grm in ngrams]
-                item['tags'] = ngrams
-                #item['tags'] = [grm for grm in ngrams if grm.lower() in keywords]
+                heading = item['quote']
+                item['tags'] = self.calculate_tags_ngrams(heading=heading, stopwords=stopwords)
+                #item['tags'] = self.calculate_tags(heading=heading, stopwords=stopwords)
+
+    def calculate_tags_ngrams(self, heading, stopwords=set()):
+        ngrams = qq.str_to_ngrams(heading, stopwords=stopwords)
+        ngrams = [" ".join([w for w in grm]) for grm in ngrams]
+        return ngrams
+
+    def calculate_tags(self, heading, stopwords=set()):
+        grams = qq.str_to_ngrams(heading, stopwords)
+        result = []
+        for tokens in grams:
+            ngrams_1 = qq.ngrams(tokens, 1)
+            result.extend([" ".join(gram) for gram in ngrams_1 if gram in self.unigrams])
+            
+            ngrams_2 = qq.ngrams(tokens, 2)
+            result.extend([" ".join(gram) for gram in ngrams_2 if gram in self.bigrams])
+            
+            ngrams_3 = qq.ngrams(tokens, 3)
+            result.extend([" ".join(gram) for gram in ngrams_3 if gram is self.trigrams])
+        return result
 
     def add_tokens(self, tokens: list):
         ngrams_1 = qq.ngrams(tokens, 1)
