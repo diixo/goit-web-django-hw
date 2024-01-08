@@ -78,21 +78,3 @@ def str_to_ngrams(str_line: str, stopwords: set(), exclude = { "2d", "3d", "3g",
 
 ##########################################
 
-if __name__ == "__main__":
-
-    print(is_date("00.01.2000"), is_date("00-01-2000"), is_date("00/01/2000"), is_date("00:01:2000"))
-
-    d_test = [ "160", "160)", "160.0", "+160", "+160.0", "$0.2%", "$.225%", "$.225%", 
-                "$.225%", "$.225%%", "$+.225%", "$,225%", "$:225%", "$+55%%%" ]
-    for i in d_test: print(is_digit(i))
-
-    for i in d_test: print(is_complex_digit(i + "v"))
-    ################################################################################
-
-    s = "John's mom went there, but he wasn't c++, c#, .net, Q&A/Q-A, #nope i_t IT at-all'. So' she said: 'Where are& viix.co. !!' 'A a'"
-    
-    list_1 = str_tokenize_words(s)
-
-    print(list_1)
-
-    print(str_to_ngrams(s, []))
