@@ -25,10 +25,8 @@ class QuotesProvider:
             ##########################################################################
 
             for string in keywords:
-                string = qq.translate(string)
-                ngrams = qq.str_to_ngrams(string, stopwords)
-                for tokens in ngrams:
-                    self.add_tokens(tokens)
+                grams = qq.str_tokenize_words(string)
+                self.add_tokens(grams)
             ##########################################################################
             print(f"QuotesProvider::uni={len(self.unigrams)}, bi={len(self.bigrams)}, tri={len(self.trigrams)}")
 
@@ -64,7 +62,7 @@ class QuotesProvider:
         result.extend([" ".join(gram) for gram in ngrams_2 if gram in self.bigrams])
         
         ngrams_3 = qq.ngrams(grams, 3)
-        result.extend([" ".join(gram) for gram in ngrams_3 if gram is self.trigrams])
+        result.extend([" ".join(gram) for gram in ngrams_3 if gram in self.trigrams])
         # TODO: unique results
         return result
 
